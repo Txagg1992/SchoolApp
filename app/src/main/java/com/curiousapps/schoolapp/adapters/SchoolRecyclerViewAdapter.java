@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.curiousapps.schoolapp.R;
+import com.curiousapps.schoolapp.activities.WebViewActivity;
 import com.curiousapps.schoolapp.models.SchoolList;
 
 import java.util.ArrayList;

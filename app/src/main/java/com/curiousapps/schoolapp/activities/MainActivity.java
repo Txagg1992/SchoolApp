@@ -1,37 +1,137 @@
 package com.curiousapps.schoolapp.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.curiousapps.schoolapp.R;
 import com.curiousapps.schoolapp.activities.BaseActivity;
+import com.curiousapps.schoolapp.adapters.OnSchoolListener;
+import com.curiousapps.schoolapp.adapters.SchoolRecyclerViewAdapter;
+import com.curiousapps.schoolapp.models.SchoolList;
 import com.curiousapps.schoolapp.requests.TestClient;
+import com.curiousapps.schoolapp.util.Testing;
+import com.curiousapps.schoolapp.viewModels.MainListViewModel;
 
-public class MainActivity extends BaseActivity {
+import java.util.List;
+
+public class MainActivity extends BaseActivity implements OnSchoolListener {
+
+    private static final String TAG = "MainActivity";
+
+    private MainListViewModel mMainListViewModel;
+    private RecyclerView mRecyclerView;
+    private SchoolRecyclerViewAdapter mSchoolRecyclerViewAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+        mRecyclerView = findViewById(R.id.school_list_recycler_view);
+
+        mMainListViewModel = new ViewModelProvider(this).get(MainListViewModel.class);
+
+        initRecyclerView();
+        subscribeObservers();
+        testRetrofitReqs();
+
+        setSupportActionBar(findViewById(R.id.tool_bar));
+    }
+
+    private void subscribeObservers(){
+        mSchoolRecyclerViewAdapter.displayLoading();
+        mMainListViewModel.setIsPerformingQuery(false);
+
+        mMainListViewModel.getSchoolList().observe(this, new Observer<List<SchoolList>>() {
             @Override
-            public void onClick(View v) {
-                testRetrofit();
-//                if (mProgressBar.getVisibility() == View.VISIBLE){
-//                    showProgressBar(false);
-//                }else {
-//                    showProgressBar(true);
-//                }
+            public void onChanged(List<SchoolList> schoolLists) {
+                if (schoolLists != null){
+                    Testing.printSchools(TAG, schoolLists);
+                    mSchoolRecyclerViewAdapter.setSchoolList(schoolLists);
+                }
+            }
+        });
+        mMainListViewModel.isQueryExhausted().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.d(TAG, "onChanged: Query Exhausted");
+
+                if (aBoolean){
+                    mSchoolRecyclerViewAdapter.setQueryExhausted();
+                }
             }
         });
     }
 
-    private void testRetrofit(){
+    private void initRecyclerView(){
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mSchoolRecyclerViewAdapter = new SchoolRecyclerViewAdapter(this);
+        mRecyclerView.setAdapter(mSchoolRecyclerViewAdapter);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                if (!mRecyclerView.canScrollVertically(1)) {
+                    //search next page
+                    mMainListViewModel.searchNextPage();
+                }
+            }
+        });
+    }
+
+
+
+    private void searchSchoolsApi(int limit, int offset) {
+        mMainListViewModel.searchSchoolsApi(limit, offset);
+    }
+
+    private void testRetrofitReqs() {
+        searchSchoolsApi(20, 1);
 
         //TestClient.getInstance().checkSchoolListRetrofit();
+        //TestClient.getInstance().checkSingleItemFromListRetrofit();
         //TestClient.getInstance().checkSchoolSATRetrofit();
-        TestClient.getInstance().checkSingleItemFromListRetrofit();
 
+    }
+
+    @Override
+    public void onSchoolClick(int position) {
+        Intent intent = new Intent(this, DetailActivity.class);
+        intent.putExtra("schoolList" , mSchoolRecyclerViewAdapter.getSelectedSchool(position));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mMainListViewModel.onBackPressed()){
+            super.onBackPressed();
+        }else {
+            finish();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_schools){
+            Intent intent = new Intent(this, MainActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.school_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 }
