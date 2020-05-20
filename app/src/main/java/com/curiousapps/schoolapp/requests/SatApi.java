@@ -1,6 +1,6 @@
 package com.curiousapps.schoolapp.requests;
 
-import com.curiousapps.schoolapp.models.SchoolSat;
+import com.curiousapps.schoolapp.models.SchoolSAT;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ public interface SatApi {
 
     //Get Single response for SAT
     @GET("resource/f9bf-2cp4.json")
-    Call<List<SchoolSat>> getSchoolSat(
+    Call<List<SchoolSAT>> getSchoolSat(
             @Query("$$app_token") String app_token,
             @Query("dbn") String dbn
     );

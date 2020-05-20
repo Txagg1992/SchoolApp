@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class SchoolSat implements Parcelable {
+public class SchoolSAT implements Parcelable {
 
     @SerializedName("dbn")
     @Expose
@@ -31,11 +31,11 @@ public class SchoolSat implements Parcelable {
     @Expose
     private String satWritingAvgScore;
 
-    private List<SchoolSat> schoolSAT;
+    private List<SchoolSAT> schoolSAT;
 
-    public SchoolSat(String dbn, String school_Name, String numOfSatTestTakers,
+    public SchoolSAT(String dbn, String school_Name, String numOfSatTestTakers,
                      String satCriticalReadingAvgScore, String satMathAvgScore,
-                     String satWritingAvgScore, List<SchoolSat> schoolSAT) {
+                     String satWritingAvgScore, List<SchoolSAT> schoolSAT) {
         this.dbn = dbn;
         this.school_Name = school_Name;
         this.numOfSatTestTakers = numOfSatTestTakers;
@@ -45,28 +45,28 @@ public class SchoolSat implements Parcelable {
         this.schoolSAT = schoolSAT;
     }
 
-    public SchoolSat() {
+    public SchoolSAT() {
     }
 
-    protected SchoolSat(Parcel in) {
+    protected SchoolSAT(Parcel in) {
         dbn = in.readString();
         school_Name = in.readString();
         numOfSatTestTakers = in.readString();
         satCriticalReadingAvgScore = in.readString();
         satMathAvgScore = in.readString();
         satWritingAvgScore = in.readString();
-        schoolSAT = in.createTypedArrayList(SchoolSat.CREATOR);
+        schoolSAT = in.createTypedArrayList(SchoolSAT.CREATOR);
     }
 
-    public static final Creator<SchoolSat> CREATOR = new Creator<SchoolSat>() {
+    public static final Creator<SchoolSAT> CREATOR = new Creator<SchoolSAT>() {
         @Override
-        public SchoolSat createFromParcel(Parcel in) {
-            return new SchoolSat(in);
+        public SchoolSAT createFromParcel(Parcel in) {
+            return new SchoolSAT(in);
         }
 
         @Override
-        public SchoolSat[] newArray(int size) {
-            return new SchoolSat[size];
+        public SchoolSAT[] newArray(int size) {
+            return new SchoolSAT[size];
         }
     };
 
@@ -94,7 +94,7 @@ public class SchoolSat implements Parcelable {
         return satWritingAvgScore;
     }
 
-    public List<SchoolSat> getSchoolSAT() {
+    public List<SchoolSAT> getSchoolSAT() {
         return schoolSAT;
     }
 
@@ -120,7 +120,7 @@ public class SchoolSat implements Parcelable {
         if (getClass() != obj.getClass()){
             return false;
         }
-        SchoolSat schoolSat = (SchoolSat) obj;
+        SchoolSAT schoolSat = (SchoolSAT) obj;
         return schoolSat.getDbn().equals(getDbn()) && schoolSat.getSchool_Name().equals(getSchool_Name());
     }
 

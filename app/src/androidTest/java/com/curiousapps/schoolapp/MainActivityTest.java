@@ -5,6 +5,8 @@ import android.view.View;
 import androidx.test.rule.ActivityTestRule;
 
 
+import com.curiousapps.schoolapp.activities.MainActivity;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;

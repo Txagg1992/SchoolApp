@@ -3,7 +3,7 @@ package com.curiousapps.schoolapp.requests;
 import android.util.Log;
 
 import com.curiousapps.schoolapp.models.SchoolList;
-import com.curiousapps.schoolapp.models.SchoolSat;
+import com.curiousapps.schoolapp.models.SchoolSAT;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -105,19 +105,19 @@ public class TestClient {
     public void checkSchoolSATRetrofit() {
         SatApi satApi = ServiceGenerator.getSatApi();
         Log.d(TAG, "Clicked for SatAPI: " + satApi);
-        Call<List<SchoolSat>> responseCall = satApi.getSchoolSat(
+        Call<List<SchoolSAT>> responseCall = satApi.getSchoolSat(
                 APP_TOKEN,
                 "25Q252"
         );
-        responseCall.enqueue(new Callback<List<SchoolSat>>() {
+        responseCall.enqueue(new Callback<List<SchoolSAT>>() {
             @Override
-            public void onResponse(Call<List<SchoolSat>> call, Response<List<SchoolSat>> response) {
+            public void onResponse(Call<List<SchoolSAT>> call, Response<List<SchoolSAT>> response) {
                 Log.d(TAG, "onResponse: Server: " + response.toString());
                 Log.d(TAG, "<<onResponse>>: Code: " + response.code());
                 if (response.code() == 200) {
                     Log.d(TAG, "Response: " + response.body());
-                    List<SchoolSat> schoolSATS = new ArrayList<>(response.body());
-                    for (SchoolSat schoolSAT : schoolSATS) {
+                    List<SchoolSAT> schoolSATS = new ArrayList<>(response.body());
+                    for (SchoolSAT schoolSAT : schoolSATS) {
                         Log.d(TAG, " School Dbn: " + schoolSAT.getDbn());
 //                        Log.d(TAG, " School Name: " + schoolSAT.getSchool_Name());
                     }
@@ -131,7 +131,7 @@ public class TestClient {
             }
 
             @Override
-            public void onFailure(Call<List<SchoolSat>> call, Throwable t) {
+            public void onFailure(Call<List<SchoolSAT>> call, Throwable t) {
 
             }
         });

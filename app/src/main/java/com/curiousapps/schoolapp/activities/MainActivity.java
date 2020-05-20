@@ -1,11 +1,10 @@
-package com.curiousapps.schoolapp;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.curiousapps.schoolapp.activities;
 
 import android.os.Bundle;
 import android.view.View;
 
-import com.curiousapps.schoolapp.requests.SchoolApi;
+import com.curiousapps.schoolapp.R;
+import com.curiousapps.schoolapp.activities.BaseActivity;
 import com.curiousapps.schoolapp.requests.TestClient;
 
 public class MainActivity extends BaseActivity {
