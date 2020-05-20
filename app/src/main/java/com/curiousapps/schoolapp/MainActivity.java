@@ -18,10 +18,7 @@ public class MainActivity extends BaseActivity {
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //TestClient.getInstance().checkSchoolListRetrofit();
-                //TestClient.getInstance().checkSchoolSATRetrofit();
-                TestClient.getInstance().checkSingleItemFromListRetrofit();
+                testRetrofit();
 //                if (mProgressBar.getVisibility() == View.VISIBLE){
 //                    showProgressBar(false);
 //                }else {
@@ -32,6 +29,10 @@ public class MainActivity extends BaseActivity {
     }
 
     private void testRetrofit(){
+
+        //TestClient.getInstance().checkSchoolListRetrofit();
+        //TestClient.getInstance().checkSchoolSATRetrofit();
+        TestClient.getInstance().checkSingleItemFromListRetrofit();
 
     }
 }
