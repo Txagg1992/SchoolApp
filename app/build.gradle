@@ -87,5 +87,6 @@ dependencies {
     def life_version = "1.1.1"
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
     implementation "android.arch.lifecycle:extensions:$life_version"
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.3.0-beta01'
 
 }
